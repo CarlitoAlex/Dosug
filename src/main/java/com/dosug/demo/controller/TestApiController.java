@@ -46,12 +46,26 @@ public class TestApiController {
     public @ResponseBody
     User createUser(@PathVariable String keyword){
         User user = new User();
-        user.setUserId(UUID.randomUUID());
         KeyWords keyWords = new KeyWords();
+        user.setUserId(UUID.randomUUID());
         user.setKeyWords(keyWords);
         keyWords.setKeywordId(UUID.randomUUID());
         keyWords.setKeyWord(keyword);
         return userRepo.save(user);
+    }
+
+
+    @RequestMapping(value = "addedKeywordToUser/{userId}/{keyword}" , method = RequestMethod.POST)
+    public @ResponseBody
+    User addedKeyWordToUser(@PathVariable String keyword , @PathVariable UUID userId){
+        User user = userRepo.findByUserId(userId);
+        KeyWords keyWords = new KeyWords();
+        user.setUserId(UUID.randomUUID());
+        user.setKeyWords(keyWords);
+        keyWords.setKeywordId(UUID.randomUUID());
+        keyWords.setKeyWord(keyword);
+        return userRepo.save(user);
+        //TODO fix conflicts
     }
 
 }
