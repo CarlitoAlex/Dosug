@@ -41,17 +41,42 @@ public class TestApiController {
         return eventRepo.findByDescriptionIgnoreCaseContains(find);
     }
 
+
     @RequestMapping(value = "createUser/{keyword}" , method = RequestMethod.POST)
     public @ResponseBody
     User createUser(@PathVariable String keyword){
-        KeyWords keyWords = new KeyWords();
-        keyWords.setKeywordId(UUID.randomUUID());
-        keyWords.setKeyWord(keyword);
         User user = new User();
+        KeyWords keyWords = new KeyWords();
         user.setUserId(UUID.randomUUID());
         user.setKeyWords(keyWords);
-        keyWordsRepo.save(keyWords);
+        keyWords.setKeywordId(UUID.randomUUID());
+        keyWords.setKeyWord(keyword);
         return userRepo.save(user);
+    }
+
+
+    @RequestMapping(value = "addedKeywordToUser/{userId}/{keyword}" , method = RequestMethod.POST)
+    public @ResponseBody
+    void addedKeyWordToUser(@PathVariable String keyword , @PathVariable UUID userId){
+        User user = userRepo.findByUserId(userId);
+        KeyWords keyWords = new KeyWords();
+        user.setKeyWords(keyWords);
+        keyWords.setKeywordId(UUID.randomUUID());
+        keyWords.setKeyWord(keyword);
+        userRepo.save(user);
+    }
+
+}
+
+    @RequestMapping(value = "addedKeywordToUser/{userId}/{keyword}" , method = RequestMethod.POST)
+    public @ResponseBody
+    void addedKeyWordToUser(@PathVariable String keyword , @PathVariable UUID userId){
+        User user = userRepo.findByUserId(userId);
+        KeyWords keyWords = new KeyWords();
+        user.setKeyWords(keyWords);
+        keyWords.setKeywordId(UUID.randomUUID());
+        keyWords.setKeyWord(keyword);
+        userRepo.save(user);
     }
 
 }
