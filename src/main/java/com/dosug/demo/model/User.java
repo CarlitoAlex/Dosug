@@ -1,5 +1,6 @@
 package com.dosug.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -12,20 +13,19 @@ public class User {
     @Id
     @GenericGenerator(name = "uuid-gen", strategy = "uuid2")
     @GeneratedValue(generator = "uuid-gen")
-    @Column(name = "USER_ID", nullable = false, updatable = false)
+    @Column(name = "USER_ID", nullable = false, updatable = false, unique = false)
     private UUID userId;
 
-
-    @OneToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "KEYWORD_ID")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_keyword",
+    joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "keyword_id"))
+    @JsonIgnore
     private KeyWords keyWords;
+    
+    public User(){}
 
     public User(KeyWords keyWords) {
         this.keyWords = keyWords;
-    }
-
-    public User(){
-
     }
 
     public UUID getUserId() {

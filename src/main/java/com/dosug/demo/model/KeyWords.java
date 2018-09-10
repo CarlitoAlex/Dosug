@@ -18,23 +18,16 @@ public class KeyWords {
 
     private String keyWord;
 
-    @OneToOne(optional = false, mappedBy = "keyWords")
+    @OneToOne(mappedBy = "keyWords")
     @JsonIgnore
-    private User userKeyword;
-
-    public User getUserKeyword() {
-        return userKeyword;
-    }
-
-    public void setUserKeyword(User userKeyword) {
-        this.userKeyword = userKeyword;
-    }
+    private User user;
 
     public KeyWords() {
     }
 
-    public KeyWords(String keyWord) {
+    public KeyWords(String keyWord, User user) {
         this.keyWord = keyWord;
+        this.user = user;
     }
 
     public UUID getKeywordId() {
@@ -51,5 +44,13 @@ public class KeyWords {
 
     public void setKeyWord(String keyWord) {
         this.keyWord = keyWord;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

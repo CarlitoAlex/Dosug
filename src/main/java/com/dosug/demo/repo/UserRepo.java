@@ -9,5 +9,4 @@ import java.util.UUID;
 @Transactional
 public interface UserRepo extends JpaRepository<User, UUID> {
     User findByUserId(UUID userId);
-    //TODO create update keywordsMethod
 }

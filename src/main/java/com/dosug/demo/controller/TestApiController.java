@@ -8,11 +8,9 @@ import com.dosug.demo.repo.EventRepo;
 import com.dosug.demo.repo.KeyWordsRepo;
 import com.dosug.demo.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -47,23 +45,12 @@ public class TestApiController {
     User createUser(@PathVariable String keyword){
         User user = new User();
         KeyWords keyWords = new KeyWords();
+        keyWords.setKeywordId(UUID.randomUUID());
+        keyWords.setKeyWord(keyword);
         user.setUserId(UUID.randomUUID());
         user.setKeyWords(keyWords);
-        keyWords.setKeywordId(UUID.randomUUID());
-        keyWords.setKeyWord(keyword);
+        keyWords.setUser(user);
         return userRepo.save(user);
-    }
-
-
-    @RequestMapping(value = "addedKeywordToUser/{userId}/{keyword}" , method = RequestMethod.POST)
-    public @ResponseBody
-    void addedKeyWordToUser(@PathVariable String keyword , @PathVariable UUID userId){
-        User user = userRepo.findByUserId(userId);
-        KeyWords keyWords = new KeyWords();
-        user.setKeyWords(keyWords);
-        keyWords.setKeywordId(UUID.randomUUID());
-        keyWords.setKeyWord(keyword);
-        userRepo.save(user);
     }
 
 }
