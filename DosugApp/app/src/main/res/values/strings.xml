@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">DosugApp</string>
+    <string name="enter_word">Word</string>
+    <string name="add">acceptWord</string>
+    <string name="Accept">PostWord</string>
+    <string name="word">Word</string>
+</resources>
