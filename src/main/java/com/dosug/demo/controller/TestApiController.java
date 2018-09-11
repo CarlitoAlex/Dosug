@@ -8,7 +8,6 @@ import com.dosug.demo.repo.EventRepo;
 import com.dosug.demo.repo.KeyWordsRepo;
 import com.dosug.demo.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +38,12 @@ public class TestApiController {
         return eventRepo.findByDescriptionIgnoreCaseContains(find);
     }
 
+
+    @RequestMapping(value = "getEventWords/{userId}" , method = RequestMethod.GET)
+    public @ResponseBody
+    List<Event> findByWordFromRepo(@PathVariable UUID userId){
+        return eventRepo.findByDescriptionIgnoreCaseContains(userRepo.findByUserId(userId).getKeyWords().getKeyWord());
+    }
 
     @RequestMapping(value = "createUser/{keyword}" , method = RequestMethod.POST)
     public @ResponseBody

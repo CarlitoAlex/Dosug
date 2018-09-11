@@ -21,7 +21,7 @@ public class User {
     joinColumns = @JoinColumn(name = "user_id"),inverseJoinColumns = @JoinColumn(name = "keyword_id"))
     @JsonIgnore
     private KeyWords keyWords;
-    
+
     public User(){}
 
     public User(KeyWords keyWords) {

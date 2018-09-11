@@ -8,6 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "keywords")
+
 public class KeyWords {
 
     @Id
