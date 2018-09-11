@@ -13,7 +13,6 @@ public class EventService {
     @Autowired
     private EventRepo eventRepo;
 
-
     public Event findEventById(UUID id){
         System.out.println(eventRepo.findByEventId(id));
         return eventRepo.findByEventId(id);

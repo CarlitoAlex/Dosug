@@ -1,9 +1,9 @@
 package com.dosug.demo.controller;
 
-
 import com.dosug.demo.model.Event;
 import com.dosug.demo.model.KeyWords;
 import com.dosug.demo.model.User;
+import com.dosug.demo.repo.CategoryRepo;
 import com.dosug.demo.repo.EventRepo;
 import com.dosug.demo.repo.KeyWordsRepo;
 import com.dosug.demo.repo.UserRepo;
@@ -26,6 +26,9 @@ public class TestApiController {
     @Autowired
     private KeyWordsRepo keyWordsRepo;
 
+    @Autowired
+    private CategoryRepo categoryRepo;
+
     @RequestMapping(value = "getEvent",method = RequestMethod.GET)
     public @ResponseBody
     List<Event> getEvents(){
@@ -36,6 +39,12 @@ public class TestApiController {
     public @ResponseBody
     List<Event> findByWords(@PathVariable String find){
         return eventRepo.findByDescriptionIgnoreCaseContains(find);
+    }
+
+    @RequestMapping(value = "getEventByCategory/{find}" , method = RequestMethod.GET)
+    public @ResponseBody
+    List<Event> findByCat(@PathVariable String find){
+        return eventRepo.findByDescriptionIgnoreCaseContains(categoryRepo.findFirstByTitle(find).getTitle());
     }
 
 

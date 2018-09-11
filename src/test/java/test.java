@@ -2,12 +2,17 @@ import com.dosug.demo.Application;
 import com.dosug.demo.model.Category;
 import com.dosug.demo.model.Event;
 import com.dosug.demo.repo.EventRepo;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -101,5 +106,27 @@ public class test {
         eventRepo.save(event5);
         eventRepo.save(event6);
         eventRepo.save(event7);
+    }
+
+    @Test
+    public void asdasd() throws IOException {
+        String url="https://vkino.ua/ru/cinema/kharkov/kinocentr-smart#afisha";
+        Document doc = Jsoup.connect(url).get();
+
+        Elements links = doc.select("#tab-table > section > div > div > div:nth-child(2) > div > div.film-info > div > a");
+
+        for(Element link : links){
+            Category category1 = new Category();
+            category1.setTitle("Cinema");
+
+            Event event1 = new Event();
+            event1.setEventId(UUID.randomUUID());
+            event1.setDescription(link.text());
+            event1.setContact("+380508468615");
+            event1.setCategory(category1);
+            event1.setStartTimeEvent(Timestamp.valueOf(LocalDateTime.now().plusMinutes(40)));
+            event1.setExpiredTimeEvent(Timestamp.valueOf(LocalDateTime.now().plusDays(3)));
+            eventRepo.save(event1);
+        }
     }
 }
