@@ -26,9 +26,21 @@ public class Event{
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
+    //ToDO added logic
+    private Long likes;
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
+
     public Category getCategory() {
         return category;
     }
+
 
     public void setCategory(Category category) {
         this.category = category;

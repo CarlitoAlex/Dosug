@@ -31,22 +31,24 @@ public class Parser {
     @Value("${urlResearch}")
     private String url;
 
-    @Scheduled(fixedRate = 20000)
+    @Scheduled(fixedRate = 30000)
     public void reportCurrentTime() throws IOException {
         Document doc = Jsoup.connect(url).get();
-        Elements links = doc.select("#tab-table > section > div > div > div:nth-child(2) > div > div.film-info > div > a");
-        for(Element link : links){
-            Category category1 = new Category();
-            category1.setTitle("Cinema");
-            Event event1 = new Event();
-            event1.setEventId(UUID.randomUUID());
-            event1.setDescription(link.text());
-            event1.setContact("+380508468615");
-            event1.setCategory(category1);
-            event1.setStartTimeEvent(Timestamp.valueOf(LocalDateTime.now().plusMinutes(40)));
-            event1.setExpiredTimeEvent(Timestamp.valueOf(LocalDateTime.now().plusDays(3)));
-            eventRepo.save(event1);
-            System.out.println("Created new EVENT " + event1.getDescription() + event1.getCategory());
+        for (int i = 0; i < 15; i++) {
+            Elements links = doc.select("#tab-table > section > div > div > div:nth-child("+i+") > div > div.film-info > div > a");
+            for(Element link : links){
+                Category category1 = new Category();
+                category1.setTitle("Cinema");
+                Event event1 = new Event();
+                event1.setEventId(UUID.randomUUID());
+                event1.setDescription(link.text());
+                event1.setContact("+380508468615");
+                event1.setCategory(category1);
+                event1.setStartTimeEvent(Timestamp.valueOf(LocalDateTime.now().plusMinutes(40)));
+                event1.setExpiredTimeEvent(Timestamp.valueOf(LocalDateTime.now().plusDays(3)));
+                eventRepo.save(event1);
+                System.out.println("Created new EVENT " + event1.getDescription() + event1.getCategory());
+            }
         }
     }
 }
