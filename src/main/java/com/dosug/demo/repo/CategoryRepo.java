@@ -9,4 +9,5 @@ public interface CategoryRepo extends JpaRepository<Category,UUID>{
 
     Category findFirstByTitle(String title);
 
+    Category findCategoryByCategoryId(UUID uuid);
 }

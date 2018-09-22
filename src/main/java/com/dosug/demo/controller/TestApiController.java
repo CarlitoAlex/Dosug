@@ -1,5 +1,6 @@
 package com.dosug.demo.controller;
 
+import com.dosug.demo.model.Category;
 import com.dosug.demo.model.Event;
 import com.dosug.demo.model.KeyWords;
 import com.dosug.demo.model.User;
@@ -42,7 +43,7 @@ public class TestApiController {
     @RequestMapping(value = "getEventByCategory/{find}" , method = RequestMethod.GET)
     public @ResponseBody
     List<Event> findByCat(@PathVariable String find){
-        return eventService.findByDescription(categoryRepo.findFirstByTitle(find).getTitle());
+        return eventService.findByDescription(categoryRepo.findFirstByTitle(find).getEvent().getDescription());
     }
 
 
@@ -66,9 +67,22 @@ public class TestApiController {
         return userRepo.save(user);
     }
 
+
+    //Need to be pushed
     @RequestMapping(value = "getLikes/{eventId}" , method = RequestMethod.GET)
     public @ResponseBody Event getLikes(@PathVariable UUID eventId){
          return eventService.addedLikes(eventService.findEventById(eventId));
     }
+
+    @RequestMapping(value = "deleteEvent/{uuid}" , method = RequestMethod.DELETE)
+    public @ResponseBody void deletoEvent(@PathVariable  String uuid){
+        Category category = new Category();
+        Event event = eventService.findEventById(UUID.fromString(uuid));
+        category.setCategoryId(UUID.randomUUID());
+        category.setTitle(event.getCategory().getTitle());
+        categoryRepo.save(category);
+        eventService.deleteEvent(uuid);
+    }
+
 
 }
