@@ -4,54 +4,53 @@ import com.dosug.demo.model.Event;
 import com.dosug.demo.model.KeyWords;
 import com.dosug.demo.model.User;
 import com.dosug.demo.repo.CategoryRepo;
-import com.dosug.demo.repo.EventRepo;
-import com.dosug.demo.repo.KeyWordsRepo;
 import com.dosug.demo.repo.UserRepo;
+import com.dosug.demo.service.EventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.UUID;
 
 @Controller
 public class TestApiController {
-
-    @Autowired
-    private EventRepo eventRepo;
-
     @Autowired
     private UserRepo userRepo;
 
     @Autowired
-    private KeyWordsRepo keyWordsRepo;
+    private CategoryRepo categoryRepo;
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private EventService eventService;
 
     @RequestMapping(value = "getEvent",method = RequestMethod.GET)
     public @ResponseBody
     List<Event> getEvents(){
-        return eventRepo.findAll();
+        return eventService.showAll();
     }
 
     @RequestMapping(value = "getEventByWord/{find}" , method = RequestMethod.GET)
     public @ResponseBody
     List<Event> findByWords(@PathVariable String find){
-        return eventRepo.findByDescriptionIgnoreCaseContains(find);
+        return eventService.findByDescription(find);
     }
 
     @RequestMapping(value = "getEventByCategory/{find}" , method = RequestMethod.GET)
     public @ResponseBody
     List<Event> findByCat(@PathVariable String find){
-        return eventRepo.findByDescriptionIgnoreCaseContains(categoryRepo.findFirstByTitle(find).getTitle());
+        return eventService.findByDescription(categoryRepo.findFirstByTitle(find).getTitle());
     }
 
 
     @RequestMapping(value = "getEventWords/{userId}" , method = RequestMethod.GET)
     public @ResponseBody
     List<Event> findByWordFromRepo(@PathVariable UUID userId){
-        return eventRepo.findByDescriptionIgnoreCaseContains(userRepo.findByUserId(userId).getKeyWords().getKeyWord());
+        return eventService.findByDescription(
+                userRepo.findByUserId(userId).getKeyWords().getKeyWord());
     }
 
     @RequestMapping(value = "createUser/{keyword}" , method = RequestMethod.POST)
@@ -65,6 +64,11 @@ public class TestApiController {
         user.setKeyWords(keyWords);
         keyWords.setUser(user);
         return userRepo.save(user);
+    }
+
+    @RequestMapping(value = "getLikes/{eventId}" , method = RequestMethod.GET)
+    public @ResponseBody Event getLikes(@PathVariable UUID eventId){
+         return eventService.addedLikes(eventService.findEventById(eventId));
     }
 
 }

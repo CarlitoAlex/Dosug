@@ -26,14 +26,13 @@ public class Event{
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 
-    //ToDO added logic
-    private Long likes;
+    private Integer likes;
 
-    public Long getLikes() {
+    public Integer getLikes() {
         return likes;
     }
 
-    public void setLikes(Long likes) {
+    public void setLikes(int likes) {
         this.likes = likes;
     }
 
