@@ -17,4 +17,6 @@ public interface EventRepo extends JpaRepository<Event, UUID> {
     List<Event> findByDescriptionIgnoreCaseContains(String desc);
 
     void deleteEventByEventId(UUID uuid);
+
+
 }

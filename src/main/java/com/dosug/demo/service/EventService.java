@@ -25,7 +25,6 @@ public class EventService {
         return eventRepo.findAll();
     }
 
-    //Needs to push
     public Event addedLikes(Event event){
         int a = event.getLikes();
         event.setLikes(a + 1);
@@ -33,7 +32,6 @@ public class EventService {
         return event;
     }
 
-    //Needed to push
     public void deleteEvent(String uuid){
         eventRepo.deleteEventByEventId(UUID.fromString(uuid));
     }
