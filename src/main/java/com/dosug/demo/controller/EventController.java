@@ -2,11 +2,11 @@ package com.dosug.demo.controller;
 
 import com.dosug.demo.model.Category;
 import com.dosug.demo.model.Event;
-import com.dosug.demo.model.KeyWords;
-import com.dosug.demo.model.User;
-import com.dosug.demo.repo.CategoryRepo;
+import com.dosug.demo.repo.EventRepo;
 import com.dosug.demo.repo.UserRepo;
+import com.dosug.demo.service.CategoryService;
 import com.dosug.demo.service.EventService;
+import com.dosug.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +18,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-public class TestApiController {
-    @Autowired
-    private UserRepo userRepo;
+public class EventController {
 
     @Autowired
-    private CategoryRepo categoryRepo;
+    private UserService userService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @Autowired
     private EventService eventService;
@@ -43,7 +44,7 @@ public class TestApiController {
     @RequestMapping(value = "getEventByCategory/{find}" , method = RequestMethod.GET)
     public @ResponseBody
     List<Event> findByCat(@PathVariable String find){
-        return eventService.findByDescription(categoryRepo.findFirstByTitle(find).getEvent().getDescription());
+        return eventService.findByDescription(categoryService.findByTitleCategory(find).getEvent().getDescription());
     }
 
 
@@ -51,27 +52,7 @@ public class TestApiController {
     public @ResponseBody
     List<Event> findByWordFromRepo(@PathVariable UUID userId){
         return eventService.findByDescription(
-                userRepo.findByUserId(userId).getKeyWords().getKeyWord());
-    }
-
-    @RequestMapping(value = "createUser/{keyword}" , method = RequestMethod.POST)
-    public @ResponseBody
-    User createUser(@PathVariable String keyword){
-        User user = new User();
-        KeyWords keyWords = new KeyWords();
-        keyWords.setKeywordId(UUID.randomUUID());
-        keyWords.setKeyWord(keyword);
-        user.setUserId(UUID.randomUUID());
-        user.setKeyWords(keyWords);
-        keyWords.setUser(user);
-        return userRepo.save(user);
-    }
-
-
-    //Need to be pushed
-    @RequestMapping(value = "getLikes/{eventId}" , method = RequestMethod.GET)
-    public @ResponseBody Event getLikes(@PathVariable UUID eventId){
-         return eventService.addedLikes(eventService.findEventById(eventId));
+                userService.findUserById(userId).getKeyWords().getKeyWord());
     }
 
     @RequestMapping(value = "deleteEvent/{uuid}" , method = RequestMethod.DELETE)
@@ -80,8 +61,13 @@ public class TestApiController {
         Event event = eventService.findEventById(UUID.fromString(uuid));
         category.setCategoryId(UUID.randomUUID());
         category.setTitle(event.getCategory().getTitle());
-        categoryRepo.save(category);
+        categoryService.save(category);
         eventService.deleteEvent(uuid);
+    }
+
+    @RequestMapping(value = "getLikes/{eventId}" , method = RequestMethod.GET)
+    public @ResponseBody Event getLikes(@PathVariable UUID eventId){
+        return eventService.addedLikes(eventService.findEventById(eventId));
     }
 
 

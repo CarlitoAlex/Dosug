@@ -26,4 +26,8 @@ public class CategoryService {
     public Category findByTitleCategory(String title) {
         return categoryRepo.findFirstByTitle(title);
     }
+
+    public void save(Category category) {
+        categoryRepo.save(category);
+    }
 }

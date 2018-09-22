@@ -22,10 +22,17 @@ public class User {
     @JsonIgnore
     private KeyWords keyWords;
 
+    private String email;
+
+    private String password;
+
     public User(){}
 
-    public User(KeyWords keyWords) {
+    public User(KeyWords keyWords, String email , String password)
+    {
         this.keyWords = keyWords;
+        this.email = email;
+        this.password = password;
     }
 
     public UUID getUserId() {
@@ -42,5 +49,21 @@ public class User {
 
     public void setKeyWords(KeyWords keyWords) {
         this.keyWords = keyWords;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
