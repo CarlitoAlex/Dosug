@@ -70,8 +70,4 @@ public class EventController {
         return eventService.addedLikes(eventService.findEventById(eventId));
     }
 
-    @RequestMapping(value = "showMeTop" , method = RequestMethod.GET)
-    public @ResponseBody Event getTop(){
-        //TODO проверить JPA разметку для простой отдачи
-    }
 }
