@@ -23,17 +23,20 @@
     <h2>Events</h2>
     <p>All event what we find</p>
     <div class="card-group">
-    <div class="card img-fluid" style="width:500px">
+    <div class="card img-fluid">
         <img class="card-img-top" src="http://remontnick.ru/upload/iblock/edb/edbce438da60ab9277fda58f08dbe7ed.jpeg" alt="Card image" style="width:100%">
         <div class="card-img-overlay">
-            <h4 class="card-title">Event 1</h4>
-            <p class="card-text">{{ info }}</p>
-            <p class="card-text">{{ info }}</p>
-            <a href="#" class="btn btn-primary" style="float:right">See Event</a>
+            <img class="card-img-top" src="https://www.segodnya.ua/img/article/11569/44_ls.1532377402.jpg" style=" width: 80%" alt="Card image">
+            <h4 class="card-title">{{ title }}</h4>
+            <p class="card-text"><strong>Описание</strong> {{ desc }}</p>
+            <p class="card-text"><strong>Контакт</strong> {{ contact }}</p>
+            <p class="card-text"><strong>Время начала</strong> {{ started }}</p>
+            <p class="card-text"><strong>Окончание мероприятия</strong> {{ finished }}</p>
+            <a href="#" class="btn btn-primary" style="float:right">Подробнее</a>
         </div>
     </div>
 
-    <div class="card img-fluid" style="width:500px;float:right">
+    <div class="card img-fluid" style="float:right">
         <img class="card-img-top" src="http://remontnick.ru/upload/iblock/edb/edbce438da60ab9277fda58f08dbe7ed.jpeg" alt="Card image" style="width:100%">
         <div class="card-img-overlay">
             <h4 class="card-title">Event 2</h4>
@@ -50,7 +53,12 @@
         el: '#app',
         data() {
             return {
-                info: null
+                info: null,
+                title:'Playstation party',
+                desc:'Playstation party started and we have fun bla-blab-la yeaahhh',
+                contact:'+380508468615',
+                started:'12-10-2018 : 18:00',
+                finished:'12-10-2019 : 18:00'
             };
         },
         mounted() {
