@@ -13,5 +13,9 @@ public class WebController {
         return "main";
     }
 
+    @GetMapping("/carinfos")
+    public String getCardInfo(){
+        return "cardInfo";
+    }
 
 }
