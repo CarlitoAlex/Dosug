@@ -9,10 +9,7 @@ import com.dosug.demo.service.EventService;
 import com.dosug.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -69,5 +66,4 @@ public class EventController {
     public @ResponseBody Event getLikes(@PathVariable UUID eventId){
         return eventService.addedLikes(eventService.findEventById(eventId));
     }
-
 }
